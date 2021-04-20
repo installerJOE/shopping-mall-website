@@ -5,9 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\User;
 
 class BrandsController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth', ['except'=>['index', 'show']]);
+    }
     
     public function index(){
         $brands = Brand::orderBy('created_at', 'desc')->get();
@@ -15,8 +25,17 @@ class BrandsController extends Controller
     }
 
     public function create(){
-        $categories = Category::select('name')->get();
-        return view('admin/brand/create')->with('categories', $categories);
+
+        $user_id = auth()->user()->id;
+        $user = User::select('user_category')->where('id', $user_id)->get();
+        
+        if($user[0]->user_category === "admin"){
+            $categories = Category::select('name')->get();
+            return view('admin/brand/create')->with('categories', $categories);
+        }
+        else{
+            return redirect('/brands')->with('error', 'Unauthorized Access Denied!');
+        }
     }
 
     public function store(Request $request){
@@ -41,7 +60,10 @@ class BrandsController extends Controller
     }
 
     public function show($id){
-        return view('admin/brand/show');
+
+        
+        $brand = Brand::find($id);
+        return view('admin/brand/show')->with('brand', $brand);
     }
 
     public function edit($id){

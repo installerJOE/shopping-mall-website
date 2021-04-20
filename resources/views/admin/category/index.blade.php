@@ -3,6 +3,9 @@
 @section('content')
     {{Form::open()}}
         <h1>Categories</h1><hr>
+        <p>
+            <a class="btn btn-primary" href="/categories/create">Add Category</a>
+        </p>
         <div style="margin-bottom:3em">
             @if($categories->count() > 0)
                 @foreach($categories as $category)

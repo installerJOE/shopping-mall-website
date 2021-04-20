@@ -5,9 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 //Use the line below to enable database query to and fro table 'categories'
 use App\Models\Category;
+use App\Models\User;
 
 class CategoriesController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth', ['except'=>['index', 'show']]);
+    }
     
     //Display a listing of the resource.
     public function index()
@@ -19,7 +29,15 @@ class CategoriesController extends Controller
     //Show the form for creating a new resource.
     public function create()
     {
-        return view('admin/category/create');        
+        $user_id = auth()->user()->id;
+        $user = User::select('user_category')->where('id', $user_id)->get();
+        
+        if($user[0]->user_category === "admin"){
+            return view('admin/category/create');
+        }
+        else{
+            return redirect('/categories')->with('error', 'Unauthorized Access Denied!');
+        }        
     }
 
     /**
@@ -39,7 +57,7 @@ class CategoriesController extends Controller
         $category->description = $request->input('description');
         $category->save();
 
-        //redirect tp categories page
+        //redirect to categories page
         return redirect('/categories')->with('success', 'Category has been Added Successfully.');
     }
 

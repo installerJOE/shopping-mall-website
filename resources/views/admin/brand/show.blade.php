@@ -1,5 +1,8 @@
 @extends('layouts/app')
 
 @section('content')
-    <h1>A working individual brand information</h1>
+    <div class="jumbotron">
+        <h1>{{$brand->name}}</h1>
+        <p>{{$brand->description}}</p>
+    </div>
 @endsection
