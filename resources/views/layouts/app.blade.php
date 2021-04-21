@@ -13,6 +13,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link  href="/path/to/cropper.css" rel="stylesheet">
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
@@ -23,6 +24,15 @@
       }
       .form-auth > div{
         margin-bottom: 1.5em !important;
+      }
+
+
+      /* Ensure the size of the image fit the container perfectly */
+      img {
+        display: block;
+
+        /* This rule is very important, please don't ignore this */
+        max-width: 100%;
       }
     </style>
 </head>
@@ -42,10 +52,28 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="/path/to/cropper.js"></script>
     
     {{-- <script; src="/vendor/ckeditor/ckeditor.js"></script>
     <script>
         CKEDITOR.replace( 'article-ckeditor' );
     </script> --}}
+
+    <script>
+      
+      const image = document.getElementById('image');
+      const cropper = new Cropper(image, {
+        aspectRatio: 16 / 9,
+        crop(event) {
+          console.log(event.detail.x);
+          console.log(event.detail.y);
+          console.log(event.detail.width);
+          console.log(event.detail.height);
+          console.log(event.detail.rotate);
+          console.log(event.detail.scaleX);
+          console.log(event.detail.scaleY);
+        },
+      });
+    </script>
   </body>
 </html>

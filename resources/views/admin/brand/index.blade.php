@@ -2,8 +2,8 @@
 
 @section('content')
     <h1>Brands</h1><hr/>
-    @if()
-        <a class="btn btn-primary" href="/brands/create">Add Brand</a><br>
+    @if(Auth::user()->user_id === "admin")
+        <a class="btn btn-primary" href="/brands/create">Add Brand</a><br><br>
     @endif
 
     <div style="margin-bottom:3em">

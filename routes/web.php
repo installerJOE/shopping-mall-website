@@ -38,6 +38,8 @@ Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'inde
 
 Auth::routes();
 
+Route::resource('/upload-image', 'App\Http\Controllers\ImageUploadsController');
+
 // enable email verification
 // Auth::routes(['verify' => true]);
 
