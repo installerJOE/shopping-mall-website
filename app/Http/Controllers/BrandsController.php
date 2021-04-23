@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\User;
+use App\Models\ImageUpload;
 
 class BrandsController extends Controller
 {
@@ -20,8 +21,20 @@ class BrandsController extends Controller
     }
     
     public function index(){
+        
         $brands = Brand::orderBy('created_at', 'desc')->get();
-        return view('admin/brand/index')->with('brands', $brands);
+        $image = ImageUpload::all();
+        
+        //restrict the showing of the create button in the index page to only central admin
+        
+        if(count(User::all()) > 0 && auth()->user()){
+            $user_category = auth()->user()->user_category;         
+        }
+        else{
+            $user_category = null;
+        }
+        return view('admin/brand/index')->with('brands', $brands)->with('user_category', $user_category)->with('image', $image);       
+        
     }
 
     public function create(){
@@ -34,7 +47,7 @@ class BrandsController extends Controller
             return view('admin/brand/create')->with('categories', $categories);
         }
         else{
-            return redirect('/brands')->with('error', 'Unauthorized Access Denied!');
+            return redirect('/brands')->with('error', 'Access Denied!');
         }
     }
 
@@ -61,7 +74,6 @@ class BrandsController extends Controller
 
     public function show($id){
 
-        
         $brand = Brand::find($id);
         return view('admin/brand/show')->with('brand', $brand);
     }

@@ -23,7 +23,13 @@ class CategoriesController extends Controller
     public function index()
     {
         $categories = Category::orderBy('created_at','desc')->get();
-        return view('admin/category/index')->with('categories', $categories);
+        if(count(User::all()) > 0 && auth()->user()){
+            $user_category = auth()->user()->user_category;
+        }
+        else{
+            $user_category = null;
+        }
+        return view('admin/category/index')->with('categories', $categories)->with('user_category', $user_category);
     }
 
     //Show the form for creating a new resource.
@@ -36,7 +42,7 @@ class CategoriesController extends Controller
             return view('admin/category/create');
         }
         else{
-            return redirect('/categories')->with('error', 'Unauthorized Access Denied!');
+            return redirect('/categories')->with('error', 'Access Denied!');
         }        
     }
 

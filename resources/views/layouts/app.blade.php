@@ -13,7 +13,8 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-    <link  href="/path/to/cropper.css" rel="stylesheet">
+    {{-- <link  href="/path/to/cropper.css" rel="stylesheet"> --}}
+    <link rel="stylesheet" href="{{asset('croppie/croppie.js')}}" />
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
@@ -35,7 +36,7 @@
         max-width: 100%;
       }
     </style>
-</head>
+  </head>
   <body>
 
     {{-- Header comes in here --}}
@@ -52,7 +53,9 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="/path/to/cropper.js"></script>
+    {{-- <script src="/path/to/cropper.js"></script> --}}
+    <script src="{{asset('croppie/croppie.js')}}"></script>
+    <script src="{{asset('js/script.js')}}"></script>
     
     {{-- <script; src="/vendor/ckeditor/ckeditor.js"></script>
     <script>
@@ -60,20 +63,29 @@
     </script> --}}
 
     <script>
-      
-      const image = document.getElementById('image');
-      const cropper = new Cropper(image, {
-        aspectRatio: 16 / 9,
-        crop(event) {
-          console.log(event.detail.x);
-          console.log(event.detail.y);
-          console.log(event.detail.width);
-          console.log(event.detail.height);
-          console.log(event.detail.rotate);
-          console.log(event.detail.scaleX);
-          console.log(event.detail.scaleY);
-        },
-      });
+
+      function openCropper(){
+        var image = document.querySelector("#img_div > img:first-child").id;
+
+        var src = '/storage/images/' . image;
+        
+        var cropImage = new Croppie(document.getElementById('imageBlock'), {
+          viewport: { width: 100, height: 100, tyoe: 'square' },
+          boundary: { width: 300, height: 300 },
+          showZoomer: false,
+          enableOrientation: true
+        });
+        cropImage.bind({
+          orientation: 1,
+          url: src
+        });
+        // cropImage.result('blob').then(blob=>{
+
+        // })
+      }
     </script>
+    
   </body>
 </html>
+
+

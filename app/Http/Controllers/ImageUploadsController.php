@@ -20,15 +20,26 @@ class ImageUploadsController extends Controller
     public function store(Request $request)
     {
         //store the file path in the database as well as the the image
-        $request->validate([
+        $this->validate($request, [
             'image' => 'required|image|mimes:jpeg,png,gif,svg|max:5036'
         ]);
-        $image_path = $request->input('image') . '/' . $request->image->extension();
+        
+        $fileNameWithExt = $request->file('image')->getClientOriginalName();
+        // return $fileNameWithExt;
 
-        $request->image->move(public_path('images'), $image_path);
-
+        // Extract the name of the file
+        $filename = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
+        // Extract the extension from the file
+        $fileExtension = $request->file('image')->getClientOriginalExtension();
+        //get the file name to be stored
+        $filenameToStore = $filename . "_" . time() . "." . $fileExtension;
+        
+        // Upload Image
+        // $path = $request->image->move(public_path('images'), $image_path);
+        $path = $request->file('image')->storeAs('public/images', $filenameToStore);
+        
         $image = new ImageUpload();
-        $image->image_url = $image_path;
+        $image->image_url = $filenameToStore;
         $image->save();
 
         return back()->with('success', 'Image upload successful.');

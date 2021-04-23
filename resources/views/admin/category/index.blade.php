@@ -3,9 +3,11 @@
 @section('content')
     {{Form::open()}}
         <h1>Categories</h1><hr>
-        <p>
-            <a class="btn btn-primary" href="/categories/create">Add Category</a>
-        </p>
+        @if(!Auth::guest() && $user_category === 'admin')
+            <p>
+                <a class="btn btn-primary" href="/categories/create">Add Category</a>
+            </p>
+        @endif
         <div style="margin-bottom:3em">
             @if($categories->count() > 0)
                 @foreach($categories as $category)
