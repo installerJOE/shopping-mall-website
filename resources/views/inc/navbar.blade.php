@@ -49,6 +49,9 @@
               </div>
             </li> 
             <li class="nav-item">
+              <a class="nav-link" href="/upload-image">Upload Image</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="/about-us">About Us</a>
             </li>
           </ul>

@@ -45,7 +45,12 @@
     {{-- Main Body Comes here --}}
     <div id="app" class="container">
       @include('inc/messages')
+      @include('inc/modal')
       @yield('content')
+
+      <!-- Trigger the modal with a button -->
+      <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+
     </div>
     
     {{-- Footer goes here --}}
@@ -55,6 +60,7 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
     {{-- <script src="/path/to/cropper.js"></script> --}}
     <script src="{{asset('croppie/croppie.js')}}"></script>
+    <script src="{{asset('js/bootstrap.js')}}"></script>
     <script src="{{asset('js/script.js')}}"></script>
     
     {{-- <script; src="/vendor/ckeditor/ckeditor.js"></script>
@@ -67,7 +73,7 @@
       function openCropper(){
         var image = document.querySelector("#img_div > img:first-child").id;
 
-        var src = '/storage/images/' . image;
+        // var src = '/storage/images/' . image;
         
         var cropImage = new Croppie(document.getElementById('imageBlock'), {
           viewport: { width: 100, height: 100, tyoe: 'square' },
@@ -77,7 +83,7 @@
         });
         cropImage.bind({
           orientation: 1,
-          url: src
+          // url: src
         });
         // cropImage.result('blob').then(blob=>{
 
