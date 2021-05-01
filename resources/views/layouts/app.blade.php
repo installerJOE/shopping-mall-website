@@ -18,7 +18,8 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <link rel="stylesheet" href={{asset("css/style.css")}}>
+    <link rel="stylesheet" href="{{asset("css/style.css")}}">
+    <link rel="stylesheet" href="{{asset("css/sidebar.css")}}">
     <style>
       .card{
         margin-bottom:2em;

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 //Use the line below to enable database query to and fro table 'categories'
 use App\Models\Category;
 use App\Models\User;
+use App\Models\Brand;
 
 class CategoriesController extends Controller
 {
@@ -22,23 +23,21 @@ class CategoriesController extends Controller
     //Display a listing of the resource.
     public function index()
     {
+
         $categories = Category::orderBy('created_at','desc')->get();
-        if(count(User::all()) > 0 && auth()->user()){
-            $user_category = auth()->user()->user_category;
+        if(auth()->user() !== null){
+            $is_admin = auth()->user()->is_admin;
         }
         else{
-            $user_category = null;
+            $is_admin = null;
         }
-        return view('admin/category/index')->with('categories', $categories)->with('user_category', $user_category);
+        return view('admin/category/index')->with('categories', $categories)->with('is_admin', $is_admin);
     }
 
     //Show the form for creating a new resource.
     public function create()
     {
-        $user_id = auth()->user()->id;
-        $user = User::select('user_category')->where('id', $user_id)->get();
-        
-        if($user[0]->user_category === "admin"){
+        if(auth()->user()->is_admin === 1){
             return view('admin/category/create');
         }
         else{
@@ -58,7 +57,7 @@ class CategoriesController extends Controller
         ]);
         
         //write to database table
-        $category = new Category();
+        $category = new Category;
         $category->name = $request->input('name');
         $category->description = $request->input('description');
         $category->save();

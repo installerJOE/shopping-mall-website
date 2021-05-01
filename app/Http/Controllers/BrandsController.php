@@ -21,38 +21,41 @@ class BrandsController extends Controller
     }
     
     public function index(){
-        
         $brands = Brand::orderBy('created_at', 'desc')->get();
         $image = ImageUpload::all();
-        
+
         //restrict the showing of the create button in the index page to only central admin
-        
-        if(count(User::all()) > 0 && auth()->user()){
-            $user_category = auth()->user()->user_category;         
+        if(auth()->user() !== null){
+            $is_admin = auth()->user()->is_admin;         
         }
         else{
-            $user_category = null;
+            $is_admin = null;
         }
-        return view('admin/brand/index')->with('brands', $brands)->with('user_category', $user_category)->with('image', $image);       
-        
+        return view('admin/brand/index')
+            ->with('brands', $brands)
+            ->with('is_admin', $is_admin)
+            ->with('image', $image);       
     }
 
     public function create(){
-
-        $user_id = auth()->user()->id;
-        $user = User::select('user_category')->where('id', $user_id)->get();
-        
-        if($user[0]->user_category === "admin"){
+        //if the user is an admin, execute the block
+        if(auth()->user()->is_admin === 1){
             $categories = Category::select('name')->get();
-            return view('admin/brand/create')->with('categories', $categories);
+            return view('admin/brand/create')
+                ->with('categories', $categories);
         }
+        // redirect if user is unauthorized
         else{
-            return redirect('/brands')->with('error', 'Access Denied!');
+            return redirect('/brands')->with('error', 'You must be an adminstrator!');
         }
     }
 
     public function store(Request $request){
         
+        $required = $request->validate([
+            'brand_name' => 'required',
+            'description' => 'required',
+        ]);
         $category = $request->input('category');
         $category_array = Category::select('id')->where('name', $category)->get();
 
@@ -73,9 +76,11 @@ class BrandsController extends Controller
     }
 
     public function show($id){
-
-        $brand = Brand::find($id);
-        return view('admin/brand/show')->with('brand', $brand);
+        $category = Brand::find($id)->category;
+        $brand = Brand::findOrFail($id);
+        return view('admin/brand/show')
+            ->with('brand', $brand)
+            ->with('category', $category);
     }
 
     public function edit($id){

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReviewsTable extends Migration
+class CreateCartsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,19 +14,21 @@ class CreateReviewsTable extends Migration
     public function up()
     {
         Schema::enableForeignKeyConstraints();
-        Schema::create('reviews', function (Blueprint $table) {
+        Schema::create('carts', function (Blueprint $table) {
             $table->id();
-            $table->longText('content')->nullable();
-            $table->integer('rating')->nullable();
-            $table->boolean('anonymous');
-            $table->boolean('published')->default(true);
             $table->foreignId('user_id')
-                ->default(0)
                 ->constrained('users')
                 ->onDelete('cascade');
             $table->foreignId('product_id')
                 ->constrained('products')
                 ->onDelete('cascade');
+            $table->string('quantity');
+            $table->float('current_discount');
+            $table->float('current_price');
+            $table->string('token');
+            $table->boolean('is_order')
+                ->default(false);
+            $table->string('status');
             $table->timestamps();
         });
     }
@@ -38,9 +40,6 @@ class CreateReviewsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reviews', function(Blueprint $table){
-            $table->dropForeign('reviews_user_id_foreign');
-            $table->dropForeign('reviews_product_id_foreign');
-        });
+        Schema::dropIfExists('carts');
     }
 }

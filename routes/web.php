@@ -46,4 +46,3 @@ Route::resource('/upload-image', 'App\Http\Controllers\ImageUploadsController');
 // Route::get('/login', 'App\Http\Controllers\Auth\LoginController@index')->name('login');
 
 // Route::get('/register', 'App\Http\Controllers\Auth\RegisterController@index')->name('register');
- 

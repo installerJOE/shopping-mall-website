@@ -3,7 +3,8 @@
 @section('content')
     {{Form::open()}}
         <h1>Categories</h1><hr>
-        @if(!Auth::guest() && $user_category === 'admin')
+        
+        @if(!Auth::guest() && $is_admin === 1)
             <p>
                 <a class="btn btn-primary" href="/categories/create">Add Category</a>
             </p>

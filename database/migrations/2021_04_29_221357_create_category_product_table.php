@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBrandsTable extends Migration
+class CreateCategoryProductTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,12 +14,11 @@ class CreateBrandsTable extends Migration
     public function up()
     {
         Schema::enableForeignKeyConstraints();
-        Schema::create('brands', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->mediumText('description');
-            $table->float('rating');
-            $table->unsignedInteger('category_id')
+        Schema::create('category_product', function (Blueprint $table) {
+            $table->foreignId('product_id')
+                ->constrained('products')
+                ->onDelete('cascade');
+            $table->foreignId('category_id')
                 ->constrained('categories')
                 ->onDelete('cascade');
             $table->timestamps();
@@ -33,8 +32,6 @@ class CreateBrandsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('brands', function(Blueprint $table){
-            $table->dropForeign('brands_category_id_foreign');
-        });        
+        Schema::dropIfExists('category_product');
     }
 }

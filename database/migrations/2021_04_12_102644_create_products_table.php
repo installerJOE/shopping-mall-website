@@ -16,17 +16,17 @@ class CreateProductsTable extends Migration
         Schema::enableForeignKeyConstraints();
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->mediumText('description');
-            $table->string('barcode');
-            $table->string('image_url_1');
-            $table->string('image_url_2');
-            $table->string('image_url_3');
-            $table->integer('likes')->length(255);
-            $table->integer('quantity_in_stock')->length(255);
-            $table->foreignId('brand_id')
-                ->constrained('brands')
-                ->onDelete('cascade');
+            $table->string('title');
+            $table->string('meta_title');
+            $table->string('slug');
+            $table->text('description');
+            $table->integer('stock')->length(255)->default(0);
+            $table->float('price')->length(10);
+            $table->float('discount')->default(0);
+            $table->integer('likes')->length(255)->default(0);
+            $table->string('image_url_1')->nullable();
+            $table->string('image_url_2')->nullable();
+            $table->string('image_url_3')->nullable();
             $table->timestamps();
         });
     }
@@ -38,8 +38,6 @@ class CreateProductsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('products', function(Blueprint $table){
-            $table->dropForeign('products_brand_id_foreign');
-        });
+        Schema::dropIfExists('products');
     }
 }

@@ -1,0 +1,26 @@
+#div_sidebar{
+    height:100%;
+    position:fixed;
+    background-color:#dfdfdf;
+    margin-top:75px;
+    color:#660033;
+    font-size:14px;
+    padding: 0px 5px;
+}
+.li-underlined{
+    border-bottom:1.5px solid #660033;
+}
+.sidebar ul{
+    list-style-type:none;
+    padding:0px;
+}
+.sidebar li{
+    margin:4px 0px;
+}
+.sidebar a{
+    padding:1em 2em;
+    display:block;
+}
+.sidebar a:hover{
+    background-color:#c9c9c9;
+}
