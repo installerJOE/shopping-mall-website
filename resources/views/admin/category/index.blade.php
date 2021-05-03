@@ -1,5 +1,11 @@
 @extends('layouts/app')
 
+{{-- Meta Data --}}
+@section("meta-content")
+    <title>Product Categories</title>
+@endsection
+
+{{-- Page Data --}}
 @section('content')
     {{Form::open()}}
         <h1>Categories</h1><hr>

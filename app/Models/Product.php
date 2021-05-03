@@ -9,7 +9,15 @@ class Product extends Model
 {
     use HasFactory;
 
-    public function category(){
-        return $this->belongsTo(Category::class, 'foreign_key');
+    public function categories(){
+        return $this->belongsToMany(Category::class);
+    }
+
+    public function cart(){
+        return $this->hasMany(CartItem::class);
+    }
+
+    public function review(){
+        return $this->hasMany(Review::class);
     }
 }

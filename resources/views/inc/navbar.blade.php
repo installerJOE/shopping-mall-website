@@ -38,19 +38,25 @@
             <li class="nav-item active">
               <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="/categories">Category</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="/catalog">Catalogue</a>
+            </li>
             {{-- Dropdown Menu --}}
-            <li class="nav-item dropdown">
+             {{-- <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Products By
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="nav-link dropdown-item" href="/categories">Category</a>
-                <a class="nav-link dropdown-item" href="/brands">Brand</a>
+                <a class="nav-link dropdown-item" href="#">Brand</a>
               </div>
-            </li> 
-            <li class="nav-item">
+            </li>  --}}
+            {{-- <li class="nav-item">
               <a class="nav-link" href="/upload-image">Upload Image</a>
-            </li>
+            </li> --}}
             <li class="nav-item">
               <a class="nav-link" href="/about-us">About Us</a>
             </li>

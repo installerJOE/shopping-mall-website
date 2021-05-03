@@ -12,13 +12,8 @@ class PagesController extends Controller
     }
 
     public function catalog(){
-        $data = array(
-            "title" => "Products Catalogue Containing List of Products!",
-            "productList" => [
-                "Books", "Magazines", "Groceries", "Fruits", "vegetables"
-            ]
-        );
-        return view('pages/catalog')->with($data);
+        $data = array();
+        return view('pages/catalog')->with('data', $data);
     }
 
     public function user(){

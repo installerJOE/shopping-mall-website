@@ -1,5 +1,11 @@
 @extends('layouts/app')
 
+{{-- Meta data --}}
+@section("meta-content")
+    <title>Shopping Mall Website</title>
+@endsection
+
+{{-- Page Data --}}
 @section("content")
     <div class="jumbotron text-center">
         <h1> {{$mainHeader}} </h1>

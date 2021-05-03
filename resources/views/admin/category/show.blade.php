@@ -1,26 +1,32 @@
 @extends('layouts/app')
 
+{{-- Meta Data --}}
+@section("meta-content")
+    <title>{{$category->meta_title}}</title>
+@endsection
+
+
 @section('content')
     <div class="jumbotron">
         <h1>
-            {{$category->name}}
+            {{$category->title}}
         </h1>
         <p>
             {{$category->description}}
         </p>
         @if(!Auth::guest())
             <p>
-                {{Form::open()}}
+                <form action="App\Http\Controllers\CategoriesController@edit" method="POST">
                     <a class="btn btn-primary">
                         Edit 
                     </a>
-                {{Form::close()}}
+                </form>
                 
-                {{Form::open()}}
+                <form action="App\Http\Controllers\CategoriesController@delete" method="POST">
                     <a class="btn btn-danger">
                         Delete 
                     </a>    
-                {{Form::close()}}
+                </form>
             <p>
         @endif
     </div>

@@ -17,10 +17,11 @@ class CategoriesController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except'=>['index', 'show']]);
+        //create an authorization and exceptions of these authorizations
+        $this->middleware('auth', ['except'=>['index', 'show',]]);
     }
     
-    //Display a listing of the resource.
+    //Display a listing of the resource (categories).
     public function index()
     {
 
@@ -34,7 +35,7 @@ class CategoriesController extends Controller
         return view('admin/category/index')->with('categories', $categories)->with('is_admin', $is_admin);
     }
 
-    //Show the form for creating a new resource.
+    //Show the form for creating a new resource (category).
     public function create()
     {
         if(auth()->user()->is_admin === 1){
@@ -45,10 +46,8 @@ class CategoriesController extends Controller
         }        
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-
+    
+    //Store a newly created resource (category) in storage
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -56,46 +55,37 @@ class CategoriesController extends Controller
             'description' => 'required'
         ]);
         
+        $category_name = $request->input('name');
+        
         //write to database table
         $category = new Category;
-        $category->name = $request->input('name');
+        $category->name = $category_name;        
         $category->description = $request->input('description');
         $category->save();
 
         //redirect to categories page
-        return redirect('/categories')->with('success', 'Category has been Added Successfully.');
+        return redirect('/categories')->with('success', $category_name . ' has been successfully added as a category.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    //display page of individual category
     public function show($id)
     {
-        $category = Category::find($id);
+        $category = Category::findOrFail($id);
         return view('admin/category/show')->with('category', $category);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
+        if(auth()->user()->is_admin !== 0){
+            $category = Category::findOrFail($id);
+            return view('admin/category/create')->with('category', $category);   
+        }
+        else{
+            // send an error 404 page not found later on
+            redirect('/categories')->with('error', 'You are not authorized.');
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         //

@@ -32,17 +32,13 @@ Route::resource('/product','App\Http\Controllers\ProductsController');
 
 Route::resource('/categories', 'App\Http\Controllers\CategoriesController');
 
-Route::resource('/brands', 'App\Http\Controllers\BrandsController');
+// Route::resource('/brands', 'App\Http\Controllers\BrandsController');
 
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index']);
 
 Auth::routes();
 
-Route::resource('/upload-image', 'App\Http\Controllers\ImageUploadsController');
+// Route::resource('/upload-image', 'App\Http\Controllers\ImageUploadsController');
 
 // enable email verification
 // Auth::routes(['verify' => true]);
-
-// Route::get('/login', 'App\Http\Controllers\Auth\LoginController@index')->name('login');
-
-// Route::get('/register', 'App\Http\Controllers\Auth\RegisterController@index')->name('register');
