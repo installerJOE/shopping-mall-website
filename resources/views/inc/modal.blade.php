@@ -12,7 +12,6 @@
         <p>Some text in the modal.</p>
       </div>
       <div class="modal-footer" style="text-align:left">
-        <button type="button" class="btn btn-success">Okay</button>
         <button type="button" class="btn btn-primary" style="float:left" data-dismiss="modal">Close</button>
       </div>
     </div>

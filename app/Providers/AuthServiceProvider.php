@@ -30,6 +30,12 @@ class AuthServiceProvider extends ServiceProvider
         //     return $user->is_admin ? Response::allow() : Response::deny('You must be authorized to proceed!');
         // });
 
-        //
+        
+        Gate::define('admin-only', function(User $user){
+            if($user->is_admin === 1){
+                return true;
+            }
+            return false;
+        }); 
     }
 }

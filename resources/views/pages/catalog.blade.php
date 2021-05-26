@@ -1,4 +1,4 @@
-@extends('layouts/app')
+@extends('layout.app')
 
 {{-- Meta Data --}}
 @section("meta-content")

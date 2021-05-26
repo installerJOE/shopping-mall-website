@@ -28,8 +28,8 @@
     <a class="navbar-brand" href="/" style="color:#ffff00 !important; font-size:30px">
       Shopping Mall
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-      <span class="navbar-toggler-icon"></span>
+    <button class="navbar-toggler hamburger-icon" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+      &#9776;
     </button>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -87,28 +87,23 @@
                           <a class="dropdown-item"  href="/dashboard">
                             Dashboard
                           </a>
-                          <a class="dropdown-item"  href="/brands/create">
-                            Add Brand
+                          <a class="dropdown-item"  href="#">
+                            Account Settings
                           </a>
-                          <a class="dropdown-item" href="/categories/create">
-                            Add Category
-                          </a>
-                          <a class="dropdown-item" href="{{ route('logout') }}"
-                             onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();">
-                              {{ __('Logout') }}
-                          </a>
-                          <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                              @csrf
-                          </form>
+                          <a class="dropdown-item"  href="#">
+                            Password Settings
+                          </a>                          
                       </div>
                   </li>
               @endguest
           </ul>
-          <form class="form-inline my-2 my-lg-0">
-            <input type="search" placeholder="Search" class="form-control mr-sm-2" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0 btn-nav-search" type="submit">Search</button>
-          </form>
+          {{-- Display search button for guests and authenticated users --}}
+          @if(Auth::guest() || Auth::user()->is_admin !== 1)
+            <form class="form-inline my-2 my-lg-0">
+              <input type="search" placeholder="Search" class="form-control mr-sm-2" aria-label="Search">
+              <button class="btn btn-outline-success my-2 my-sm-0 btn-nav-search" type="submit">Search</button>
+            </form>
+          @endif
       </div>
   </div>
 </nav>

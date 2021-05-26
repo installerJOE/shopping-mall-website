@@ -1,4 +1,4 @@
-@extends('layouts/app')
+@extends('layout.app')
 
 {{-- Meta Data --}}
 @section("meta-content")
@@ -19,13 +19,24 @@
             @if($categories->count() > 0)
                 @foreach($categories as $category)
                     <div class="category-group">
-                        <h2>{{$category->name}}</h2> 
+                        <h2>{{$category->title}}</h2> 
                         <p>
                             {{$category->description}}
                         </p>
-                        <a class="btn btn-primary" href="/categories/{{$category->id}}">
-                            View Products
-                        </a>
+                        <div class="row">
+                            <div style="float:left" class="col-6">
+                                <a class="btn btn-primary" href="/categories/{{$category->id}}">
+                                    View Category
+                                </a>
+                            </div>
+                            @if(!Auth::guest() && $is_admin === 1)
+                                <div style="float:right" class="col-6">
+                                    <a class="btn btn-primary" href="/categories/{{$category->id}}/edit">
+                                        Edit 
+                                    </a>
+                                </div>
+                            @endif
+                        </div>
                     </div>
                 @endforeach
                 {{-- Include the pagination block --}}

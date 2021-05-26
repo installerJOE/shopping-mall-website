@@ -30,8 +30,9 @@
       .form-auth > div{
         margin-bottom: 1.5em !important;
       }
-
-
+      nav{
+        margin:0px !important;
+      }
       /* Ensure the size of the image fit the container perfectly */
       img {
         display: block;
@@ -39,27 +40,38 @@
         /* This rule is very important, please don't ignore this */
         max-width: 100%;
       }
+      #app{
+        padding-top:3em;
+      }
     </style>
   </head>
   <body>
 
     {{-- Header comes in here --}}
-    @include('inc/navbar')
+    @include('inc.navbar')
+
+    {{-- Opening Image for applicable pages --}}
+    <div>
+      @yield('opening-image')
+    </div>
 
     {{-- Main Body Comes here --}}
     <div id="app" class="container">
-      @include('inc/messages')
-      @include('inc/modal')
+      @include('inc.messages')
+      @include('inc.modal')
       @yield('content')
-
-      <!-- Trigger the modal with a button -->
-      {{-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button> --}}
-
     </div>
-    
-    {{-- Footer goes here --}}
-    @include('inc/footer')
 
+    <!-- Trigger the modal with a button -->
+    {{-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button> --}}
+
+    
+    {{-- Display Footer for only guests and authenticated users --}}
+    @if(Auth::guest() || Auth::user()->is_admin !== 1)
+      @include('inc/footer')
+    @endif
+
+    
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     {{-- <script src="/path/to/cropper.js"></script> --}}
@@ -67,12 +79,21 @@
     <script src="{{asset('js/bootstrap.js')}}"></script>
     <script src="{{asset('js/script.js')}}"></script>
     
+    
     {{-- <script; src="/vendor/ckeditor/ckeditor.js"></script>
     <script>
         CKEDITOR.replace( 'article-ckeditor' );
     </script> --}}
 
     <script>
+      // make a confirmation before form submission
+      function confirmFormSubmit(question){
+          var confirmDel = confirm(question);
+          if(!confirmDel){
+              return false;
+          }
+      }
+
 
       function openCropper(){
         var image = document.querySelector("#img_div > img:first-child").id;

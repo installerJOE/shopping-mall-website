@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
+
+// the below line is added if one doesn't wish to use to laravel's auth scaffolding
+// use Illuminate\Support\Facades\Auth;
+
 class LoginController extends Controller
 {
     /*
@@ -37,4 +41,19 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    /* 
+     *  this is used when developer prefers not to use Laravel's auth scaffolding
+     *
+    public function authenticate(Request $request){
+        $credentials = $request->only('email', 'password');
+        if(Auth::attempt($credentials)){
+            $request->session()->regenerate();
+            return redirect(dashboard)->intended('dashboard');
+        }
+        return back()->withErrors([
+            'email' => 'Check your username or password.',
+        ]);
+    }
+    */
 }

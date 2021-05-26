@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Mail\WelcomeMail;
+use Illuminate\Support\Facades\Mail;
+use App\Http\Resources\testResource;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,13 +32,13 @@ Route::get('/catalog', 'App\Http\Controllers\PagesController@catalog');
 Route::get('/user', 'App\Http\Controllers\PagesController@user');
 Route::get('/about-us', 'App\Http\Controllers\PagesController@about');
 
-Route::resource('/product','App\Http\Controllers\ProductsController');
+Route::resource('/products','App\Http\Controllers\ProductsController');
 
 Route::resource('/categories', 'App\Http\Controllers\CategoriesController');
 
 // Route::resource('/brands', 'App\Http\Controllers\BrandsController');
 
-Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index']);
+Route::get('/dashboard', 'App\Http\Controllers\DashboardController@index');
 
 Auth::routes();
 
@@ -42,3 +46,12 @@ Auth::routes();
 
 // enable email verification
 // Auth::routes(['verify' => true]);
+
+Route::get('/email', function(){
+    Mail::to('ijoe4jah@gmail.com')->send(New WelcomeMail());
+    return new WelcomeMail();
+});
+
+Route::get('/verify', function(){
+    return view('emails.verify');
+});

@@ -23,6 +23,7 @@
     },
     "dependencies": {
         "cropperjs": "^1.5.11",
-        "croppie": "^2.6.5"
+        "croppie": "^2.6.5",
+        "font-awesome": "^4.7.0"
     }
 }

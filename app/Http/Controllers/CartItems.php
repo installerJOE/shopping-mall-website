@@ -13,7 +13,7 @@ class CartItems extends Controller
      */
     public function index()
     {
-        //
+        return "I am working";
     }
 
     /**

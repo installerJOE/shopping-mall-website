@@ -20,7 +20,7 @@ a{
 /* Styling of the navigation bar */
 .navbar{
   padding: 20px;
-  background-color: #660033;
+  background-color: #fc8003;
   color: #fff;
   width: 100%;
   font-size: 16px;
@@ -32,10 +32,13 @@ a{
 .nav-link{
   padding: 10px;
   color: #fff;
+  border-bottom: 0px;
+  border-radius: 5px; 
+  transition: 0.5s;
 }
 .nav-link:hover{
-  color: #660033 !important;
-  background-color:#fff !important;
+  border-bottom: 1.5px solid #fff; 
+  color: #fff !important;
 }
 .dropdown-menu .nav-link{
   color: #660033;
@@ -49,9 +52,20 @@ a{
   font-weight:bold;
 }
 .btn-nav-search:hover{
-  background-color: #ffff00;
+  background-color: #fff;
   color: #660033;
-  border-color: #ffff00
+  border-color: #fff;
+}
+.hamburger-icon{
+  border: 1.5px solid #fff;
+  border-radius: 10px;
+  color: #fff;
+  padding: 12px;
+  font-size: 25px
+}
+.hamburger-icon:hover{
+  background-color: #fff;
+  color: #660033;
 }
 .category-group{
   border: 1px solid rgba(102, 0, 51, 0.2);
@@ -66,4 +80,24 @@ a{
   background-color: #000;
   color: #fff;
   bottom: 0px;
+}
+.color-orange{
+  color: #fc8003;
+}
+.btn-bg{
+  font-size:20px
+}
+.btn-default{
+  color: #fff;
+  background-color: rgba(0,0,0,0);
+  border-color: #fff;
+}
+.btn-default:hover{
+  color: #fc8003;
+  background-color: #fff;
+}
+.btn-orange-bd{
+  border: 1px solid #fc8003;
+  background-color: rgba(0,0,0,0);
+  color: #fc8003;
 }
