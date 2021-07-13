@@ -16,9 +16,12 @@
     <link rel="stylesheet" href="{{asset('croppie/croppie.css')}}" />
 
     <!-- Styles -->
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{asset("css/style.css")}}">
-    <link rel="stylesheet" href="{{asset("css/sidebar.css")}}">
+    <link rel="stylesheet" href="{{asset("css/sidebar.css")}}"> --}}
+    <link rel="stylesheet" href="{{ url('public/css/app.css') }}">
+    <link rel="stylesheet" href="{{url('public/css/style.css')}}">
+    <link rel="stylesheet" href="{{url('public/css/sidebar.css')}}">
 
     {{-- Additional meta data such as title and other stylesheets --}}
     @yield('meta-content')
