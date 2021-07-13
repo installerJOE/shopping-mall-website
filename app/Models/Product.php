@@ -9,8 +9,11 @@ class Product extends Model
 {
     use HasFactory;
 
-    public function categories(){
-        return $this->belongsToMany(Category::class);
+    //hide the properties below when returning a json object
+    protected $hidden = ['category_id'];
+
+    public function category(){
+        return $this->belongsTo(Category::class);
     }
 
     public function cart(){

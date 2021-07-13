@@ -15,7 +15,7 @@ class ProductsController extends Controller
     public function __construct()
     {
         //create an authorization and exceptions of these authorizations
-        $this->middleware('auth', ['except'=>['index', 'show']]);
+        $this->middleware('auth', ['except'=>['index', 'show', 'barcode']]);
     }
 
     public function index()
@@ -24,24 +24,6 @@ class ProductsController extends Controller
         return view('admin.pages.product.index')
                 ->with('products', $products)
                 ->with('is_admin', $this->declareAdminStatus());
-    }
-
-    // Function to get authenticated user admin status 
-    public function declareAdminStatus(){
-        if(Auth::check()){
-            $is_admin = Auth::user()->is_admin;
-        }
-        else{
-            $is_admin = null;
-        }
-        return $is_admin;
-    }
-
-    // Function for generating slug
-    public function slug_generator($title){
-        $main_title_arr = explode(' ', $title);
-        $slug = strtolower(join('-', $main_title_arr));
-        return $slug;
     }
 
     public function create()
@@ -61,7 +43,34 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'product_name' => 'required',
+            'description' => 'required'
+        ]);
+        
+        //write product information to database table
+        try{
+            $product = new Product;
+            $product->title = $request->input('product_name');        
+            $product->slug = $this->slug_generator($request->input('product_name'));
+            $product->description = $request->input('description');
+            $product->category_id = $request->input('category');
+            $product->price = $request->input('price');
+            $product->discount = $this->nullableInput($request->input('discount'));
+            //encode product by means of the md5 hash function
+            $product->barcode = hash('md5', $product->slug . $product->description);
+            //save in database table
+            $product->save();
+            //redirect to products page
+            return redirect('/products')->with('success', $product->title . ' has been successfully added as a product.');
+        }
+        //if product already exists (issue of double entry)
+        catch(\Illuminate\Database\QueryException $ex){
+            $errorCode = $ex->errorInfo[1];
+            if($errorCode === 1062){
+                return back()->with('error', 'Attention! This product already exists.');
+            }
+        }            
     }
 
     /**
@@ -69,15 +78,12 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
-        $products = Product::findOrFail($id);
-        if(Gate::allows('admin-only', Auth::user())){
-            return view('admin.pages.product.show')
-                    ->with('products', $products);
-        }
-        else{
-            //throw an error page
-            return back()->with('error', 'You must be an admin');
-        }  
+        $product = Product::findOrFail($id);
+        $category = $product->category;
+        return view('admin.pages.product.show')
+                ->with('category', $category)
+                ->with('product', $product)
+                ->with('is_admin', $this->declareAdminStatus());
     }
 
     /**
@@ -85,7 +91,12 @@ class ProductsController extends Controller
      */
     public function edit($id)
     {
-        //
+        //display edit page with each value present in the input fields
+        $product = Product::findOrFail($id);
+        return view('admin.pages.product.edit')
+                ->with('category', $product->category)
+                ->with('product', $product)
+                ->with('categories', Category::all());
     }
 
     /**
@@ -93,7 +104,37 @@ class ProductsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'product_name' => 'required',
+            'description' => 'required'
+        ]);
+
+        //update product information to database table
+        $product = Product::findOrFail($id);
+
+        try{
+            //fetch data from the form
+            $product->title = $request->input('product_name');        
+            $product->slug = $this->slug_generator($request->input('product_name'));
+            $product->description = $request->input('description');
+            $product->category_id = $request->input('category');
+            $product->price = $request->input('price');
+            
+            //encode product by means of the md5 hash function
+            $product->barcode = hash('md5', $product->slug . $product->description);
+
+            $product->discount = $this->nullableInput($request->input('discount'));
+            $product->save();
+            //redirect to products page
+            return redirect('/products')->with('success', 'Product updated successfully.'); 
+        }
+        //if product already exists (issue of double entry)
+        catch(\Illuminate\Database\QueryException $ex){
+            $errorCode = $ex->errorInfo[1];
+            if($errorCode === 1062){
+                return back()->with('error', 'Attention! This product already exists.');
+            }
+        }        
     }
 
     /**
@@ -101,6 +142,8 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::findOrFail($id);
+        $product->delete();
+        return redirect('/products')->with('success', $product->title . ' is no longer a product.');
     }
 }

@@ -8,9 +8,10 @@
                 <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}" class="form-auth">
+                    <form method="POST" action="{{ route('register') }}" class="form-auth" onsubmit="return validatePassword()">
                         @csrf
 
+                        {{-- Field for name --}}
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
 
@@ -25,6 +26,7 @@
                             </div>
                         </div>
 
+                        {{-- Field for email --}}
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-mail Address') }}</label>
 
@@ -38,12 +40,17 @@
                                 @enderror
                             </div>
                         </div>
-
+                        
+                        {{-- Field for password  --}}
                         <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" 
+                                name="password" required autocomplete="new-password" oninput="checkPasswordLength(); passwordMatch()">
+                                <strong>
+                                    <p id="pwdStrength" style="margin-top:1em; margin-bottom:0em"></p>
+                                </strong>
 
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
@@ -53,14 +60,20 @@
                             </div>
                         </div>
 
+                        {{-- Field to retype password --}}
                         <div class="form-group row">
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                <input id="password_confirm" type="password" class="form-control" name="password_confirmation" 
+                                required autocomplete="new-password" oninput="passwordMatch()">
+                                <strong>
+                                    <p id="pwdMatch" style="margin-top:1em; margin-bottom:0em"></p>
+                                </strong>
                             </div>
                         </div>
 
+                        {{-- Register button --}}
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

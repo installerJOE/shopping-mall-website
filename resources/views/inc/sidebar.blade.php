@@ -70,10 +70,10 @@
                 </ul>
             </li>
             <li>
-                <a href="#">NOTIFICATIONS</a>
+                <a href="/print-barcodes">PRINT BARCODES</a>
             </li>
             <li class="li-underlined">
-                <a href="#">DOCUMENTATION</a>
+                <a href="#">NOTIFICATIONS</a>
             </li>
             <li>
                 <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

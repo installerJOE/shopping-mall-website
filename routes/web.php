@@ -3,8 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Mail\WelcomeMail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Resources\testResource;
 use App\Models\User;
+use App\Models\Product;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +43,21 @@ Route::resource('/categories', 'App\Http\Controllers\CategoriesController');
 Route::get('/dashboard', 'App\Http\Controllers\DashboardController@index');
 
 Auth::routes();
+
+
+
+Route::get('/print-barcodes', function(){
+    if(Gate::allows('admin-only', Auth::user())){
+        $products = Product::select('id', 'title')->get();   
+        return view('admin.pages.product.barcode')
+            ->with('products', $products);
+    }
+    else{
+        //throw an error page
+        return back()->with('error', 'You must be an admin');
+    }        
+});
+
 
 // Route::resource('/upload-image', 'App\Http\Controllers\ImageUploadsController');
 

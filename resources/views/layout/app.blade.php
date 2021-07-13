@@ -13,7 +13,7 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     {{-- <link  href="/path/to/cropper.css" rel="stylesheet"> --}}
-    <link rel="stylesheet" href="{{asset('croppie/croppie.js')}}" />
+    <link rel="stylesheet" href="{{asset('croppie/croppie.css')}}" />
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
@@ -94,6 +94,14 @@
           }
       }
 
+      function previewImage(){
+        var reader = new FileReader();
+        reader.onload = ()=>{
+          var output = document.getElementById('output_img');
+          output.src = reader.result;
+        }
+        reader.readAsDataURL(event.target.files[0]);
+      }
 
       function openCropper(){
         var image = document.querySelector("#img_div > img:first-child").id;

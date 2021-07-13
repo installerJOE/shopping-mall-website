@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 //Use the line below to enable database query to and fro table 'categories'
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\User;
-use App\Models\Brand;
 
 class CategoriesController extends Controller
 {
@@ -26,28 +26,20 @@ class CategoriesController extends Controller
     //Display a listing of the resource (categories).
     public function index()
     {
-        $categories = Category::orderBy('created_at','desc')->get();
-        return view('admin.pages.category.index')
-                ->with('categories', $categories)
-                ->with('is_admin', $this->declareAdminStatus());
-    }
-
-    // Function to get authenticated user admin status 
-    public function declareAdminStatus(){
-        if(Auth::check()){
-            $is_admin = Auth::user()->is_admin;
+        $products = Product::all();
+        if($products !== null){
+            $categories = Category::orderBy('created_at','desc')->get();
+            return view('admin.pages.category.index')
+                    ->with('categories', $categories)
+                    ->with('products', $products)
+                    ->with('is_admin', $this->declareAdminStatus());
         }
         else{
-            $is_admin = null;
+            return view('admin.pages.category.index')
+                    ->with('categories', $categories)
+                    ->with('is_admin', $this->declareAdminStatus());
         }
-        return $is_admin;
-    }
-
-    // Function for generating slug
-    public function slug_generator($title){
-        $main_title_arr = explode(' ', $title);
-        $slug = strtolower(join('-', $main_title_arr));
-        return $slug;
+        
     }
 
     //Show the form for creating a new resource (category).
@@ -78,7 +70,7 @@ class CategoriesController extends Controller
             $category->description = $request->input('description');
             $category->save();
             //redirect to categories page
-            return redirect('/categories')->with('success', $category_title . ' has been successfully added as a category.');
+            return redirect('/categories')->with('success', $category->title . ' has been successfully added as a category.');
         }
         //if category already exists (issue of double entry)
         catch(\Illuminate\Database\QueryException $ex){
@@ -95,6 +87,7 @@ class CategoriesController extends Controller
         $category = Category::findOrFail($id);
         return view('admin.pages.category.show')
                 ->with('category', $category)
+                ->with('products', $category->products)
                 ->with('is_admin', $this->declareAdminStatus());
     }
 

@@ -2,12 +2,12 @@
 
 {{-- Meta Data --}}
 @section("meta-content")
-    <title>product name goes here</title>
+    <title>Product Catalog</title>
 @endsection
 
 {{-- Page Data --}}
 @section('content')
-    <h1>Products</h1><hr>
+    <h1>Product Catalog</h1><hr>
     @if(!Auth::guest() && $is_admin === 1)
         <p>
             <a class="btn btn-primary" href="/products/create">Add Product</a>
@@ -20,24 +20,23 @@
                 There are no products in this category yet.
             </p>
         @else
-            @foreach ($products as $product)
-                <div class="row">
-                    <div class="col-lg-4 col-sm-6 col-md-6 col-xs-12">
-                        <img id="output_img" src="/storage/images/no_image_male.jpg" style="width:100%"/>
+            <div class="row">
+                @foreach ($products as $product)
+                    <div class="col-lg-3 col-sm-4 col-md-4 col-xs-6 product-wrap">
+                        <div class="col-12 product">
+                            <a href="/products/{{$product->id}}">
+                                <div class="col-12 product-list-image">
+                                    <img id="output_img" src="/storage/images/no_image_male.jpg" style="width:100%"/>
+                                </div>
+                                <div class="row product-list-info">
+                                    <div class="col-12" style="font-weight:bold;">{{$product->title}}</div> 
+                                    <div class="col-12">${{$product->price}}</div>
+                                </div>
+                            </a>
+                        </div>
                     </div>
-                    <div class="col-lg-8 col-sm-6 col-md-6 col-xs-12">
-                        <h2>
-                            {{$product->description}}
-                        </h2>
-                        <p>
-                            {{$product->price}}
-                        </p>
-                        <a class="btn btn-primary" href="/products/{{$product->id}}">
-                            View Product
-                        </a>  
-                    </div>
-                </div>
-            @endforeach
+                @endforeach
+            </div>
         @endif
     </div>
 @endsection
