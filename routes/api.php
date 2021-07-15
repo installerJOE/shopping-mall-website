@@ -62,11 +62,28 @@ Route::post('/review/{p_id}/{user_id}', function(Request $request, $p_id, $user_
         $review->user_id = $user_id;
     }
     $review->save();
-
     //return the message
     return response()->json([
         "message" => "Reviews has been received. Thanks."
     ], 200);
 });
 
-//service addition of products to cart 
+//service addition of product stock
+Route::post('/add-stock/{user_id}', function(Request $request, $user_id){
+    $user = User::findOrFail($user_id)->is_admin;
+    if($user){
+        $product = Product::findOrFail($request->input('id'));
+        $product->stock = $product->stock + $request->input('stock');
+        $product->save();
+        //return success message
+        return response()->json([
+            "message" => "Stock has been added"
+        ], 200);
+    }
+    else{
+        //return the error message
+        return response()->json([
+            "message" => "You are not Authorised to add product"
+        ], 403);
+    }
+});
