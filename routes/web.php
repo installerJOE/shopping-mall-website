@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Resources\testResource;
 use App\Models\User;
 use App\Models\Product;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +44,11 @@ Route::resource('/categories', 'App\Http\Controllers\CategoriesController');
 Route::get('/dashboard', 'App\Http\Controllers\DashboardController@index');
 
 Auth::routes();
+
+Route::post('/upload-image', function(Request $request){
+    dd($request->all());
+    
+});
 
 
 

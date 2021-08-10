@@ -26,7 +26,7 @@
                         <div class="col-12 product">
                             <a href="/products/{{$product->id}}">
                                 <div class="col-12 product-list-image">
-                                    <img id="output_img" src="/storage/images/no_image_male.jpg" style="width:100%"/>
+                                    <img id="output_img" src="storage/images/product_images/{{$product->image_url_1}}" style="width:100%"/>
                                 </div>
                                 <div class="row product-list-info">
                                     <div class="col-12" style="font-weight:bold;">{{$product->title}}</div> 

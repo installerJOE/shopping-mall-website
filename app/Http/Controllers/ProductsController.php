@@ -45,8 +45,30 @@ class ProductsController extends Controller
     {
         $this->validate($request, [
             'product_name' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'product_image' => 'image|nullable',
         ]);
+
+        // Handle file upload
+        if($request->hasfile('product_image')){
+            
+            
+            if($request->input('base64image') || $request->input('base64image') != '0'){
+                $folderPath = public_path('storage/images/product_images');
+                $image_parts = explode(';base64,', $request->input('base64image'));
+                $image_types_aux = explode('image/', $image_parts[0]);
+                $image_type = $image_types_aux[1];
+                $image_base64 = base64_decode($image_parts[1]);
+                $filename = $this->slug_generator($request->input('product_name')) . "_" . time() . "." . $image_type;
+                $file = $folderPath . $filename;
+                $path = str_replace('\\', '/',  $file);
+                file_put_contents($path, $image_base64);
+            }
+        }
+        else{
+            $filename = "no_product_img.png";
+            dd($request->all());
+        }
         
         //write product information to database table
         try{
@@ -57,6 +79,7 @@ class ProductsController extends Controller
             $product->category_id = $request->input('category');
             $product->price = $request->input('price');
             $product->discount = $this->nullableInput($request->input('discount'));
+            $product->image_url_1 = $filename;
             //encode product by means of the md5 hash function
             $product->barcode = hash('md5', $product->slug . $product->description);
             //save in database table

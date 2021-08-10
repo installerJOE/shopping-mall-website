@@ -16,12 +16,10 @@
     <link rel="stylesheet" href="{{asset('croppie/croppie.css')}}" />
 
     <!-- Styles -->
-    {{-- <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{asset("css/style.css")}}">
-    <link rel="stylesheet" href="{{asset("css/sidebar.css")}}"> --}}
-    <link rel="stylesheet" href="{{ url('public/css/app.css') }}">
-    <link rel="stylesheet" href="{{url('public/css/style.css')}}">
-    <link rel="stylesheet" href="{{url('public/css/sidebar.css')}}">
+    <link rel="stylesheet" href="{{asset("css/sidebar.css")}}">
+    
 
     {{-- Additional meta data such as title and other stylesheets --}}
     @yield('meta-content')
@@ -95,35 +93,6 @@
           if(!confirmDel){
               return false;
           }
-      }
-
-      function previewImage(){
-        var reader = new FileReader();
-        reader.onload = ()=>{
-          var output = document.getElementById('output_img');
-          output.src = reader.result;
-        }
-        reader.readAsDataURL(event.target.files[0]);
-      }
-
-      function openCropper(){
-        var image = document.querySelector("#img_div > img:first-child").id;
-
-        // var src = '/storage/images/' . image;
-        
-        var cropImage = new Croppie(document.getElementById('imageBlock'), {
-          viewport: { width: 100, height: 100, tyoe: 'square' },
-          boundary: { width: 300, height: 300 },
-          showZoomer: false,
-          enableOrientation: true
-        });
-        cropImage.bind({
-          orientation: 1,
-          // url: src
-        });
-        // cropImage.result('blob').then(blob=>{
-
-        // })
       }
     </script>
     

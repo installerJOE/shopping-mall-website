@@ -5,7 +5,7 @@
     <title>Shopping Mall Website</title>
     <style>
         #home_image{
-            background-image: "../storage/images/img1.jpg";
+            background-image: url("/storage/images/img1.jpg");
             background-size: cover;
             height: 100vh;
             display: block;
