@@ -63,7 +63,7 @@
   </div>
   <div class="row div-copyright" style="text-align:center">
       <div class="col-12" style="margin-bottom: 1.2em">
-          <span style="color: #7b9de0"> Follow us on: <br> </span>
+          <p style="margin-bottom: 0.5em; color: #7b9de0"> Follow us on: <br> </p>
           <a href="#">
               <i class="fab fa-instagram-square"></i> <span class="span-socials"> Instagram </span>
           </a> &nbsp; &nbsp;
@@ -75,7 +75,7 @@
           </a> &nbsp; &nbsp;
           <a href="#">
               <i class="fab fa-linkedin"></i> <span class="span-socials"> LinkedIn </span>
-          </a> &nbsp; &nbsp;
+          </a>
       </div>
       <div class="col-12" style="margin-bottom: 1.2em">
           © 2021 Copyright Justice Igoma and Bright Eseosa Ada - Department of Computer Engineering

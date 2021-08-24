@@ -115,6 +115,15 @@ hr +  div, hr + p{
     background-color: #e8e8e8;
     border: 1px solid #e6e6e6;
 }
+
+/* "Did you know" section of the home page  */
+#know-clip-art{
+    display: block;
+}
+#know-clip-art-mobile{
+    display: none;
+}
+
 .product-wrap{
     padding: 15px;
 }
@@ -231,7 +240,7 @@ hr +  div, hr + p{
     text-align:center; 
 }
 .clip-icon > svg{
-    height: 400px
+    height: 300px
 }
 .icon-cap, .icon-cap a{
     font-size:14px !important;
@@ -245,8 +254,24 @@ hr +  div, hr + p{
         clear:right;
         margin-top:0px
     }
+    #home1{
+        padding-right:20px !important;
+        padding-left:20px !important;
+        padding-top: 3em !important
+    }
+    .home-sub-div{
+        padding:10px !important;
+    }
     .home-sub-div, #home1{
         text-align: center;
+    }
+    /* Styling of DId you know section of the home page */
+    #know-clip-art{
+        display: none;
+    }
+    #know-clip-art-mobile{
+        display: block;
+        padding-top: 2em
     }
     h1{
         font-size: 28px !important;
@@ -293,7 +318,6 @@ hr +  div, hr + p{
     .bg-grey{
         background-color: #f2f2f2;
     }
-
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
     

@@ -121,7 +121,9 @@ footer .fab{
     footer .fab{
         font-size: 18px;
     }
-    
+    .span-socials{
+        display: none;
+    }
 }
 @media only screen and (min-width: 596px) and (max-width: 767px) {
     
