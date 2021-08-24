@@ -13,6 +13,9 @@ a{
 *{
     box-sizing: border-box;
 }
+.form-control{
+    margin-left: 10px;
+}
 [class*="col-"]{
     padding-left:0px;
     padding-right:0px

@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="{{asset("css/main.css")}}">
     <link rel="stylesheet" href="{{asset("css/footer.css")}}">
     <link rel="stylesheet" href="{{asset("css/sidebar.css")}}">
+    <link rel="stylesheet" href="{{asset("css/admin.css")}}">
     
 
     {{-- Additional meta data such as title and other stylesheets --}}
@@ -71,7 +72,7 @@
 
     
     {{-- Display Footer for only guests and authenticated users --}}
-    @if(Auth::guest() || Auth::user()->is_admin !== 1)
+    @if(Auth::guest())
       @include('inc/footer')
     @endif
 

@@ -5,9 +5,8 @@
     <title>Shopping Mall Website</title>
     <style>
         #home_image{
-            background-image: url("/storage/images/img1.jpg");
+            background-image: url("storage/images/img1.jpg");
             background-size: cover;
-            height: 100vh;
             display: block;
         }
         #home_image > div{
@@ -31,6 +30,19 @@
         }
         p{
             font-size: 20px;
+        }
+        @media only screen and (min-width: 600px){
+            #home_image{
+                height: 100vh;
+            }
+        }
+        @media only screen and (max-width: 600px){
+            #home_image{
+                background-image: url("storage/images/img1-mobile.jpg");
+                background-size: cover;
+                width: 100vw;
+                display: block;
+            }
         }
     </style>
 @endsection

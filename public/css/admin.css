@@ -1,0 +1,59 @@
+hr{
+    width:100%;
+    background-color: #a2a2a2;
+}
+
+.dashboard-card{
+    padding:10px;
+    transition: 0.5s;
+    -webkit-transition: 0.5s;
+}
+.dashboard-card:hover{
+    transform: scale(1.04);
+    cursor: pointer;
+}
+.dashboard-card > div{
+    /* border: 1px solid #a2a2a2; */
+    border-radius: 10px;
+    overflow: auto;
+    padding: 2em;
+    text-align: center;
+}
+.dashboard-card h3{
+    font-size: 18px;
+    margin-top:0.5em;
+    color: #343B4A !important;
+}
+.dashboard-card p{
+    margin-bottom: 0px;
+    margin-top:1em;
+    font-size:16px !important
+}
+.dashboard-card h1{
+    font-size:48px !important;
+    margin-top:0.5em;
+}
+
+/* Different background colors */
+.pink-bg{
+    background-color: #FFEBEB;
+    color: #7B9DE0
+}
+.pink-bg h1, .light-blue-bg h1{
+    color: #7B9DE0;
+}
+.light-blue-bg{
+    background-color: #E1EBFF;
+    color: #7B9DE0
+}
+.peach-bg{
+    background-color: #F3D09A;
+    color: #343B4A;
+}
+.peach-bg h1, .pink-bg p{
+    color: #343B4A !important;
+}
+.grey-bg{
+    background-color: #f2f2f2;
+    color: #343B4A;
+}
