@@ -118,6 +118,28 @@ hr +  div, hr + p{
     background-color: #e8e8e8;
     border: 1px solid #e6e6e6;
 }
+/* For buttons with blue background colour */
+.btn-blue-bg{
+    background-color:#7B9DE0;
+    color:#fff;
+    border-color: #7B9DE0;
+}
+.btn-blue-bg:hover{
+    background-color: rgba(0,0,0,0);
+    color: #7B9DE0;
+}
+/* For buttons with light blue background colour */
+.btn-light-blue-bg{
+    background-color: #E1EBFF;
+    color: #343B4A;
+    border-color: #E1EBFF;
+}
+.btn-light-blue-bg:hover{
+    background-color: #343B4A;
+    border-color: #343B4A;
+    color: #fff;
+}
+
 
 /* "Did you know" section of the home page  */
 #know-clip-art{

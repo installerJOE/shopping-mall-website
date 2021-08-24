@@ -71,8 +71,8 @@ a.list-group-item{
 .list-group-item + .list-group-item {
     border-top-width: 0;
 }
-#sidebar-wrapper .list-group-item > i{
-    color:#ffa51f;
+.auth-user-page i{
+    color:#f1960d;
 }
 
 

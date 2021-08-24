@@ -30,11 +30,11 @@ class ProductsController extends Controller
     {
         $products = Product::all();
         if(Gate::allows('admin-only', Auth::user())){
-            return view('admin.pages.product.create')->with('categories', Category::all());
+            return view('admin.pages.product.create')->with('categories', Category::all())->with('is_auth_user', 'set');
         }
         else{
             //throw an error page
-            return back()->with('error', 'You must be an admin');
+            return back()->with('error', 'You must be an admin')->with('is_auth_user', 'set');
         }        
     }
 
@@ -46,28 +46,31 @@ class ProductsController extends Controller
         $this->validate($request, [
             'product_name' => 'required',
             'description' => 'required',
-            'product_image' => 'image|nullable',
+            'product_image' => 'image|mimes:jpeg,png,jpg,gif|required|max:3072',
         ]);
 
         // Handle file upload
-        if($request->hasfile('product_image')){
-            
-            
-            if($request->input('base64image') || $request->input('base64image') != '0'){
-                $folderPath = public_path('storage/images/product_images');
-                $image_parts = explode(';base64,', $request->input('base64image'));
-                $image_types_aux = explode('image/', $image_parts[0]);
-                $image_type = $image_types_aux[1];
-                $image_base64 = base64_decode($image_parts[1]);
-                $filename = $this->slug_generator($request->input('product_name')) . "_" . time() . "." . $image_type;
-                $file = $folderPath . $filename;
-                $path = str_replace('\\', '/',  $file);
-                file_put_contents($path, $image_base64);
+        if($request->hasfile('product_image')){            
+            try{
+                if($request->input('base64image') || $request->input('base64image') != '0'){
+                    $folderPath = public_path('storage/images/product_images/');
+                    $image_parts = explode(';base64,', $request->input('base64image'));
+                    $image_types_aux = explode('image/', $image_parts[0]);
+                    $image_type = $image_types_aux[1];
+                    $image_base64 = base64_decode($image_parts[1]);
+                    $filename = $this->slug_generator($request->input('product_name')) . "_" . time() . "." . $image_type;
+                    $file = $folderPath . $filename;
+                    $path = str_replace('\\', '/',  $file);
+                    file_put_contents($path, $image_base64);
+                }
+            }
+            catch(\Illuminate\Database\QueryException $ex){
+                $errorCode = $ex->errorInfo[1];
+                return $errorCode;
             }
         }
         else{
-            $filename = "no_product_img.png";
-            dd($request->all());
+            return back()->with('error', 'Please Upload a valid image to create the product')->with('is_auth_user', 'set');
         }
         
         //write product information to database table
@@ -85,13 +88,14 @@ class ProductsController extends Controller
             //save in database table
             $product->save();
             //redirect to products page
-            return redirect('/products')->with('success', $product->title . ' has been successfully added as a product.');
+            return redirect('/products')
+                ->with('success', $product->title . ' has been successfully added as a product.');
         }
         //if product already exists (issue of double entry)
         catch(\Illuminate\Database\QueryException $ex){
             $errorCode = $ex->errorInfo[1];
             if($errorCode === 1062){
-                return back()->with('error', 'Attention! This product already exists.');
+                return back()->with('error', 'Attention! This product already exists.')->with('is_auth_user', 'set');
             }
         }            
     }
@@ -105,7 +109,7 @@ class ProductsController extends Controller
         $category = $product->category;
         return view('admin.pages.product.show')
                 ->with('category', $category)
-                ->with('product', $product)
+                ->with('product',   $product)
                 ->with('is_admin', $this->declareAdminStatus());
     }
 
@@ -116,10 +120,12 @@ class ProductsController extends Controller
     {
         //display edit page with each value present in the input fields
         $product = Product::findOrFail($id);
+        $admin = "I am an auth user";
         return view('admin.pages.product.edit')
                 ->with('category', $product->category)
                 ->with('product', $product)
-                ->with('categories', Category::all());
+                ->with('categories', Category::all())
+                ->with('is_auth_user', 'set');
     }
 
     /**
@@ -134,7 +140,7 @@ class ProductsController extends Controller
 
         //update product information to database table
         $product = Product::findOrFail($id);
-
+        $admin = "I am an auth user";
         try{
             //fetch data from the form
             $product->title = $request->input('product_name');        
@@ -155,7 +161,7 @@ class ProductsController extends Controller
         catch(\Illuminate\Database\QueryException $ex){
             $errorCode = $ex->errorInfo[1];
             if($errorCode === 1062){
-                return back()->with('error', 'Attention! This product already exists.');
+                return back()->with('error', 'Attention! This product already exists.')->with('is_auth_user', 'set');
             }
         }        
     }

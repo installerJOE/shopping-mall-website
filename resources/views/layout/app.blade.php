@@ -62,7 +62,9 @@
 
     {{-- Main Body Comes here --}}
     <div id="app" class="container">
-      @include('inc.messages')
+      @empty($is_auth_user)
+        @include('inc.messages')
+      @endempty
       @include('inc.modal')
       @yield('content')
     </div>

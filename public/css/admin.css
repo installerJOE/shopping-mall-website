@@ -1,3 +1,6 @@
+body{
+    font-size:16px;
+}
 hr{
     width:100%;
     background-color: #a2a2a2;
@@ -46,6 +49,10 @@ hr{
     background-color: #E1EBFF;
     color: #7B9DE0
 }
+.blue-bg{
+    background-color: #324e8a;
+    color: #fff;
+}
 .peach-bg{
     background-color: #F3D09A;
     color: #343B4A;
@@ -57,3 +64,11 @@ hr{
     background-color: #f2f2f2;
     color: #343B4A;
 }
+.btn{
+    font-size:16px;
+}
+.side-menu-content-block{
+    padding-bottom:3em;
+}
+
+/* Use this color as default white => #f8fafc; */

@@ -8,7 +8,7 @@
 {{-- Page Data --}}
 @section('content')
     {{Form::open()}}
-        <h1>Categories</h1><hr>
+        <h1> <i class="fas fa-fw fa-list-alt"></i>  Categories</h1><hr>
         
         @if(!Auth::guest() && $is_admin === 1)
             <p>

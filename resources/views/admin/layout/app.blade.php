@@ -24,13 +24,16 @@
 
 @section('content')
     {{-- Sidebar --}}
-    <div class="row" id="div_mainBody">
-        <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+    <div class="row auth-user-page" id="div_mainBody">
+        <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12 side-menu-list-block">
             @include('inc/sidebar')
         </div>
         
         {{-- Menu Contents --}}
-        <div class="col-lg-9 col-sm-9 col-md-9 col-xs-12">
+        <div class="col-lg-9 col-sm-9 col-md-9 col-xs-12 side-menu-content-block">
+            @isset($is_auth_user)
+                @include('inc.messages')
+            @endisset
             @yield('admin-content')
         </div>
     </div>

@@ -46,7 +46,7 @@ class CategoriesController extends Controller
     public function create()
     {
         if(Gate::allows('admin-only', Auth::user())){
-            return view('admin.pages.category.create');
+            return view('admin.pages.category.create')->with('is_auth_user', 'set');;
         }
         else{
             //throw an error page
@@ -64,6 +64,13 @@ class CategoriesController extends Controller
         
         //write to database table
         try{
+            $category_all = Category::select('title')->get();
+            for($i=0; $i<count($category_all); $i++){
+                if($category_all[$i] === $request->input('title')){
+                    return back()->with("error", "Category already exists")->with('is_auth_user', 'set');;
+                }
+            }
+
             $category = new Category;
             $category->title = $request->input('title');        
             $category->slug = $this->slug_generator($request->input('title'));;
@@ -76,7 +83,7 @@ class CategoriesController extends Controller
         catch(\Illuminate\Database\QueryException $ex){
             $errorCode = $ex->errorInfo[1];
             if($errorCode === 1062){
-                return back()->with('error', 'Category Already Exists');
+                return back()->with('error', 'Category Already Exists')->with('is_auth_user', 'set');;
             }
         }            
     }
@@ -95,7 +102,7 @@ class CategoriesController extends Controller
     {
         if(Gate::allows('admin-only', Auth::user())){
             $category = Category::findOrFail($id);
-            return view('admin.pages.category.edit')->with('category', $category);   
+            return view('admin.pages.category.edit')->with('category', $category)->with('is_auth_user', 'set');;   
         }
         else{
             // send an error 404 page not found later on

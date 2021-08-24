@@ -37,9 +37,10 @@
             @csrf
             <div style="margin-bottom:2em" class="form-default">
                 <label for='title'>Name of Product </label><br>
-                <input type="text" name="product_name" class="form-control" placeholder="Enter name of Product" required="required"><br>
+                <input type="text" name="product_name" class="form-control" value="{{ old('product_name') }}" placeholder="e.g. Gucci Belt" required="required"><br>
+                
                 <label for="category">Product Category</label><br>
-                <select class="form-control" name="category">
+                <select class="form-control" name="category" value="{{ old('category') }}">
                     @foreach ($categories as $category)
                         <option value="{{$category->id}}">
                             {{$category->title}}
@@ -48,14 +49,14 @@
                 </select> <br>
 
                 <label for='description'> Description of Product </label><br>
-                <textarea name="description" id="article-ckeditor" class="form-control" rows="5" required="required"
-                placeholder="Enter the description of this product"></textarea><br>
+                <textarea name="description" value="{{ old('description') }}" id="article-ckeditor" class="form-control" rows="5" required="required"
+                placeholder="Your detailed description of the product comes here"></textarea><br>
                 
                 <label for="price">Pricing ($)</label><br>
-                <input type="number" name="price" class="form-control" required="required" placeholder="Enter Price of Product"><br>
+                <input type="number" name="price" value="{{ old('price') }}" class="form-control" required="required" placeholder="e.g. 20.00"><br>
 
                 <label for="discount">Discount (%)</label><br>
-                <input type="number" name="discount" class="form-control" placeholder="Enter Discount of Product"><br>
+                <input type="number" name="discount" value="{{ old('discount') }}" class="form-control" placeholder="e.g. 10.00"><br>
                 
                 {{-- Image Upload Section --}}
                 <label>Select Image</label>
@@ -99,7 +100,7 @@
                             </div>
                         </div>
                     </div>
-                </div> <br>
+                </div><br id="image-br" style="display:none">
 
                 {{-- Submit button --}}
                 <button type="submit" class="btn btn-primary">Add Product</button> <br>
@@ -152,7 +153,7 @@
         
         $modal.on('shown.bs.modal', function () {
             cropper = new Cropper(image, {
-                aspectRatio: 1,
+                aspectRatio: 14/9,
                 viewMode: 3,
                 preview: '.preview',
                 zoomOnWheel: true,
@@ -166,7 +167,9 @@
         $("#crop").click(function(){
             canvas = cropper.getCroppedCanvas({
                 width: 160,
-                height: 160,
+                height: 90,
+                maxWidth: 3072,
+                maxHeight: 3072,
             });
             canvas.toBlob(function(blob) {
                 url = URL.createObjectURL(blob);
@@ -179,6 +182,7 @@
                     var image = document.getElementById('output_img');
                     image.src = base64data;
                     $modal.modal('hide');
+                    document.getElementById('image-br').style.display = "block";
                     // $.ajax({
                     //     type: "post",
                     //     headers: {
